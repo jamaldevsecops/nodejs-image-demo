@@ -23,7 +23,7 @@ pipeline {
                 // Run a Docker container from the built image
                 script {
                     def containerName = 'node-demo'
-                    def portMapping = '80:8080'
+                    def portMapping = '8080:8080'
                     def imageName = 'node-demo'
                     
                     sh "docker run --name ${containerName} -p ${portMapping} -d ${imageName}"
