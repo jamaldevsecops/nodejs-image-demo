@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent RND-SERVER-03
     stages {
         stage('Checkout') {
             steps {
