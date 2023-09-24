@@ -1,5 +1,7 @@
 pipeline {
-    agent 'RND-SERVER-03'
+    agent {
+       label 'RND-SERVER-03'
+    }
     stages {
         stage('Checkout') {
             steps {
