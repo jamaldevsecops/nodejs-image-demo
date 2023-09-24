@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        lable 'RND-SERVER-03'
+        label 'RND-SERVER-03'
     }
     stages {
         stage('Checkout') {
