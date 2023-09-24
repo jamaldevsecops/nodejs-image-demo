@@ -1,3 +1,5 @@
+def dockerImage
+
 pipeline {
     agent {
         label 'RND-SERVER-03'
@@ -15,15 +17,16 @@ pipeline {
                     // Define the Docker container name for the previous instance
                     def previousContainerName = 'my-node-app'
                     
-                    // Check if a container with the same name is running
-                    def isContainerRunning = sh(script: "docker ps -q -f name=${previousContainerName}", returnStatus: true) == 0
+                    // Check if a container with the same name exists (running or stopped)
+                    def containerExists = sh(script: "docker ps -aq -f name=${previousContainerName}", returnStatus: true) == 0
                     
-                    if (isContainerRunning) {
-                        // Stop and remove the previous container if it's running
+                    if (containerExists) {
+                        // Stop and remove the previous container
                         sh "docker stop ${previousContainerName}"
                         sh "docker rm ${previousContainerName}"
+                        echo "Stopped and removed the previous container ${previousContainerName}"
                     } else {
-                        echo "No running container with the name ${previousContainerName} found."
+                        echo "No container with the name ${previousContainerName} found."
                     }
                 }
             }
@@ -32,9 +35,9 @@ pipeline {
             steps {
                 script {
                     // Define the Docker image name
-                    def dockerImage = 'my-node-app'
+                    dockerImage = 'my-node-app'
                     // Build the Docker image using the Dockerfile from the project directory
-                    sh "docker build -t ${dockerImage} -f /path/to/your/Dockerfile ."
+                    sh "docker build -t ${dockerImage} -f Dockerfile ."
                     // Replace "/path/to/your/Dockerfile" with the actual path to your Dockerfile
                 }
             }
