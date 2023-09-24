@@ -1,6 +1,6 @@
 pipeline {
     agent {
-       label 'RND-SERVER-03'
+        label 'RND-SERVER-03'
     }
     stages {
         stage('Checkout') {
@@ -9,7 +9,6 @@ pipeline {
                 checkout scm
             }
         }
-#here
         stage('Build Docker Image') {
             steps {
                 script {
