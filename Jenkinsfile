@@ -4,24 +4,6 @@ pipeline {
     agent {
         label 'RND-SERVER-03'
     }
-    stages {
-        stage('Stop and Remove Previous Container') {
-            steps {
-                script {
-                    // Define the Docker container name for the previous instance
-                    #def previousContainerName = 'my-node-app'
-                    
-                    // Check if a container with the same name is running
-                    def isContainerRunning = sh(script: "docker ps -q -f name=my-node-app", returnStatus: true) == 0
-                    
-                    if (isContainerRunning) {
-                        // Stop and remove the previous container if it's running
-                        sh "docker stop ${previousContainerName}"
-                        sh "docker rm ${previousContainerName}"
-                    }
-                }
-            }
-        }
         stage('Build Docker Image') {
             steps {
                 script {
