@@ -5,12 +5,6 @@ pipeline {
         label 'RND-SERVER-03'
     }
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout the code from your Git repository
-                checkout scm
-            }
-        }
         stage('Stop and Remove Previous Container') {
             steps {
                 script {
@@ -34,7 +28,7 @@ pipeline {
                     // Define the Docker image name
                     dockerImage = 'my-node-app'
                     // Build the Docker image using the Dockerfile from the project directory
-                    sh "docker build -t ${dockerImage} -f /path/to/your/Dockerfile ."
+                    sh "docker build -t ${dockerImage} -f Dockerfile ."
                     // Replace "/path/to/your/Dockerfile" with the actual path to your Dockerfile
                 }
             }
