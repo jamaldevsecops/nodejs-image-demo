@@ -11,26 +11,6 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Stop and Remove Previous Container') {
-            steps {
-                script {
-                    // Define the Docker container name for the previous instance
-                    def previousContainerName = 'my-node-app'
-                    
-                    // Check if a container with the same name exists (running or stopped)
-                    def containerExists = sh(script: "docker ps -aq -f name=${previousContainerName}", returnStatus: true) == 0
-                    
-                    if (containerExists) {
-                        // Stop and remove the previous container
-                        sh "docker stop ${previousContainerName}"
-                        sh "docker rm ${previousContainerName}"
-                        echo "Stopped and removed the previous container ${previousContainerName}"
-                    } else {
-                        echo "No container with the name ${previousContainerName} found."
-                    }
-                }
-            }
-        }
         stage('Build Docker Image') {
             steps {
                 script {
