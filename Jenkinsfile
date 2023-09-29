@@ -11,6 +11,29 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Stop and Remove Docker Container') {
+            steps {
+                script {
+                    // Define the Docker container name
+                    def containerName = 'my-node-app'
+                    
+                    // Check if the container is running
+                    def isRunning = sh(script: "docker inspect -f '{{.State.Running}}' ${containerName}", returnStatus: true) == 0
+                    
+                    if (isRunning) {
+                        // Stop the existing container if it's running
+                        sh "docker stop ${containerName}"
+                        
+                        // Remove the existing container
+                        sh "docker rm ${containerName}"
+                        
+                        echo "Stopped and removed existing container: ${containerName}"
+                    } else {
+                        echo "Container ${containerName} is not running, no need to stop or remove."
+                    }
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
